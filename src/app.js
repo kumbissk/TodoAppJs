@@ -166,6 +166,25 @@ ideeForm.addEventListener("submit", (event) => {
     console.log(creerUneCarte);
 })
 
+//AFFICHAGE DANS NOTRE BASE
+
+window.addEventListener("DOMContentLoaded", (event) => {
+    //RECUPERATION DES DONNEES VIA API
+    fetch(API_URL, {
+      method: "GET",
+      headers: {
+        apikey: API_KEY,
+        "Authorization": "Bearer " +API_KEY
+      }
+    })
+    .then((Response) => Response.json())
+    .then((idees) => {
+        idees.forEach((idee) => {
+          creerUneCarte(idee)
+        })
+    })
+})
+
 
 
 
