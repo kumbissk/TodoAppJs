@@ -121,6 +121,51 @@ inputSuggestion.addEventListener("input", (event) => {
     }
 })
 
+//RECUPERATION DES INFORMATIONS DU FORMULAIRE
+
+ideeForm.addEventListener("submit", (event) => {
+    event.preventDefault()
+  
+    // Récupération des informations saisies
+    const titreSaisi = inputTitre.value
+    const suggestionSaisi = inputSuggestion.value
+  
+    if (titreSaisi.trim().length < 5 || suggestionSaisi.trim().length < 10) {
+      alert("Merci de saisir des informations correctes")
+      return
+    }
+  
+    // mettre les informations sous forme
+    const nouvelleIdee = {
+      titre: titreSaisi,
+      suggestion: suggestionSaisi,
+      statut: false,
+    }
+  
+    //ENVOYER LES DONNEES VERS SUPABASE
+    fetch(API_URL, {
+      method: "POST",
+      headers: {
+        apikey: API_KEY,
+        "Content-Type": "application/json",
+        Prefer: "return=representation"
+      },
+      body: JSON.stringify(nouvelleIdee),
+    }).then((response) => response.json())
+        .then((data) => {
+            ideeCreeAuNiveauAPI = data[0]
+            creerUneCarte(ideeCreeAuNiveauAPI)
+        })
+  
+    // on vide les champs
+    inputTitre.value = ""
+    inputSuggestion.value = ""
+  
+    //AJOUT DE LA NOUVELLE IDEE AU NIVEAU DE LA PAGE
+    
+    console.log(creerUneCarte);
+})
+
 
 
 
